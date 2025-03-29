@@ -11,8 +11,8 @@ import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBar
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBarItem
 import me.partypronl.recur.presentation.practice.quick.QuickPracticeNavigation
 import me.partypronl.recur.presentation.practice.quick.QuickPracticeViewModel
-import me.partypronl.recur.util.EventFlow
-import me.partypronl.recur.util.RetrieveAsEffect
+import me.partypronl.recur.util.mvvm.EventFlow
+import me.partypronl.recur.util.mvvm.RetrieveAsEffect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

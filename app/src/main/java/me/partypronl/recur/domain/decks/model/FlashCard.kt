@@ -15,7 +15,13 @@ data class FlashCard(
     val back: String,
     val normalResult: FlashCardResult = FlashCardResult.default(),
     val reverseResult: FlashCardResult = FlashCardResult.default(),
-)
+) {
+
+    val knowledgePercentage = (
+            normalResult.rememberingLevel.knowledgePercentage +
+            reverseResult.rememberingLevel.knowledgePercentage
+        ) / 2.0
+}
 
 data class FlashCardResult(
     val lastCompleted: Instant,
@@ -47,5 +53,8 @@ enum class RememberingLevel(
     SEVEN(1.days),
     EIGHT(3.days),
     NINE(7.days),
-    TEN(14.days),
+    TEN(14.days);
+
+    val knowledgePercentage: Double
+        get() = this.ordinal / (RememberingLevel.entries.size - 1).toDouble()
 }

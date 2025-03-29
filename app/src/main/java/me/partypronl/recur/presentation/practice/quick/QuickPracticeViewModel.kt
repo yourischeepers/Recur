@@ -1,7 +1,7 @@
 package me.partypronl.recur.presentation.practice.quick
 
 import androidx.lifecycle.ViewModel
-import me.partypronl.recur.util.MutableEventFlow
+import me.partypronl.recur.util.mvvm.MutableEventFlow
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel

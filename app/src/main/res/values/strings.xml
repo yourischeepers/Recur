@@ -3,4 +3,12 @@
     <string name="navigation_item_practice">Practice</string>
     <string name="navigation_item_decks">Decks</string>
     <string name="navigation_item_account">You</string>
+    <string name="decks_list_title">Your decks</string>
+    <string name="decks_list_title_amount_indicator">(%s)</string>
+    <plurals name="decks_list_card_amount">
+        <item quantity="one">%s card</item>
+        <item quantity="other">%s cards</item>
+    </plurals>
+    <string name="decks_list_item_practice">Practice</string>
+    <string name="decks_list_item_manage">Manage</string>
 </resources>

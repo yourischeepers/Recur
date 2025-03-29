@@ -1,4 +1,4 @@
-package me.partypronl.recur.util
+package me.partypronl.recur.util.mvvm
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle

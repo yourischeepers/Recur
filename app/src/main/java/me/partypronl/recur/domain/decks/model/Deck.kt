@@ -8,4 +8,7 @@ data class Deck(
     val name: String,
     val cards: List<FlashCard>,
     val createdAt: Instant,
-)
+) {
+
+    val knowledgePercentage = cards.sumOf { it.knowledgePercentage } / cards.size.toDouble()
+}

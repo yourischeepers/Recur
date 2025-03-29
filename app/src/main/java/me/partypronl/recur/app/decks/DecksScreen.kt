@@ -19,7 +19,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +40,8 @@ import me.partypronl.recur.R
 import me.partypronl.recur.app.MainNavGraph
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBar
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBarItem
+import me.partypronl.recur.app.generic.composable.states.GenericError
+import me.partypronl.recur.app.generic.composable.states.GenericLoader
 import me.partypronl.recur.presentation.decks.DecksNavigation
 import me.partypronl.recur.presentation.decks.DecksViewModel
 import me.partypronl.recur.presentation.decks.model.DeckUIModel
@@ -105,10 +106,10 @@ private fun DecksContent(
             )
         },
         loadingContent = {
-            // TODO
+            GenericLoader(modifier = Modifier.fillMaxSize())
         },
         errorContent = {
-            // TODO
+            GenericError(modifier = Modifier.fillMaxSize())
         },
     )
 }
@@ -277,7 +278,7 @@ private fun CreateDeckFAB(
     Spacer(modifier = Modifier.width(12.dp))
 
     Text(
-        text = "Create deck"
+        text = stringResource(R.string.decks_list_create_deck),
     )
 }
 

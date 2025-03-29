@@ -25,7 +25,7 @@ private fun MainContent(
 ) {
     NavHost(
         navController = navController,
-        startDestination = MainNavGraph.Decks,
+        startDestination = MainNavGraph.QuickPractice,
         modifier = modifier,
     ) {
         mainRoutes(navController)

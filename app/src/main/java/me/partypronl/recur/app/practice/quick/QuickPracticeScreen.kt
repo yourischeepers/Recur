@@ -1,4 +1,4 @@
-package me.partypronl.recur.app.decks
+package me.partypronl.recur.app.practice.quick
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -9,40 +9,40 @@ import androidx.navigation.NavController
 import me.partypronl.recur.app.MainNavGraph
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBar
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBarItem
-import me.partypronl.recur.presentation.decks.DecksNavigation
-import me.partypronl.recur.presentation.decks.DecksViewModel
+import me.partypronl.recur.presentation.practice.quick.QuickPracticeNavigation
+import me.partypronl.recur.presentation.practice.quick.QuickPracticeViewModel
 import me.partypronl.recur.util.EventFlow
 import me.partypronl.recur.util.RetrieveAsEffect
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun DecksScreen(
+fun QuickPracticeScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: DecksViewModel = koinViewModel(),
+    viewModel: QuickPracticeViewModel = koinViewModel(),
 ) {
     viewModel.navigation.HandleNavigation(navController)
 
-    DecksContent(
-        onClickPractice = viewModel::onOpenPracticeClicked,
+    QuickPracticeContent(
+        onClickDecks = viewModel::onOpenDecksClicked,
         onClickAccount = viewModel::onOpenAccountClicked,
         modifier = modifier,
     )
 }
 
 @Composable
-private fun DecksContent(
-    onClickPractice: () -> Unit,
+private fun QuickPracticeContent(
+    onClickDecks: () -> Unit,
     onClickAccount: () -> Unit,
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
     bottomBar = {
         RecurNavigationBar(
-            openItem = RecurNavigationBarItem.Decks,
+            openItem = RecurNavigationBarItem.Practice,
             onOpen = {
                 when (it) {
-                    RecurNavigationBarItem.Practice -> onClickPractice()
+                    RecurNavigationBarItem.Decks -> onClickDecks()
                     RecurNavigationBarItem.Account -> onClickAccount()
                     else -> Unit
                 }
@@ -51,19 +51,19 @@ private fun DecksContent(
     }
 ) { innerPadding ->
     Text(
-        text = "Decks",
+        text = "Quick practice",
         modifier = Modifier.padding(innerPadding)
     )
 }
 
 @Composable
-private fun EventFlow<DecksNavigation>.HandleNavigation(navController: NavController) {
+private fun EventFlow<QuickPracticeNavigation>.HandleNavigation(navController: NavController) {
     RetrieveAsEffect {
         when (it) {
-            is DecksNavigation.OpenPractice -> {
-                navController.navigate(MainNavGraph.QuickPractice)
+            is QuickPracticeNavigation.OpenDecks -> {
+                navController.navigate(MainNavGraph.Decks)
             }
-            is DecksNavigation.OpenAccount -> {
+            is QuickPracticeNavigation.OpenAccount -> {
                 // TODO
             }
         }

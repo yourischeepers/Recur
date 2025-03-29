@@ -8,12 +8,16 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import me.partypronl.recur.app.decks.DecksScreen
+import me.partypronl.recur.app.practice.quick.QuickPracticeScreen
 
 @Serializable
 data object MainNavGraph {
 
     @Serializable
     data object Decks
+
+    @Serializable
+    data object QuickPractice
 }
 
 @Stable
@@ -22,6 +26,13 @@ fun NavGraphBuilder.mainRoutes(
 ) {
     composable<MainNavGraph.Decks> {
         DecksScreen(
+            navController = navController,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+
+    composable<MainNavGraph.QuickPractice> {
+        QuickPracticeScreen(
             navController = navController,
             modifier = Modifier.fillMaxSize(),
         )

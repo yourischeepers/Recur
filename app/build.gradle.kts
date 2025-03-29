@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -39,6 +40,10 @@ android {
 }
 
 dependencies {
+
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlin.datetime)
 
     // Android
     implementation(libs.androidx.core.ktx)

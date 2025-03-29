@@ -1,11 +1,13 @@
 package me.partypronl.recur.app
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
+import me.partypronl.recur.app.decks.DecksScreen
 
 @Serializable
 data object MainNavGraph {
@@ -19,6 +21,9 @@ fun NavGraphBuilder.mainRoutes(
     navController: NavController,
 ) {
     composable<MainNavGraph.Decks> {
-        Text("Decks")
+        DecksScreen(
+            navController = navController,
+            modifier = Modifier.fillMaxSize(),
+        )
     }
 }

@@ -44,6 +44,7 @@ dependencies {
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlin.datetime)
+    implementation(libs.atomicfu)
 
     // Android
     implementation(libs.androidx.core.ktx)

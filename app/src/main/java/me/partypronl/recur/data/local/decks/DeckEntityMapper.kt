@@ -30,7 +30,12 @@ class DeckEntityMapper(
         val tempCards = listOf(
             FlashCard(
                 id = UUID.randomUUID(),
-                front = "Chinese",
+                front = "Ni hao",
+                back = "English",
+            ),
+            FlashCard(
+                id = UUID.randomUUID(),
+                front = "Wo shi zhongguoren",
                 back = "English",
             ),
         )

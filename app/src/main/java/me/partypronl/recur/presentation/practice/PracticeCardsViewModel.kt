@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import me.partypronl.recur.domain.decks.model.CardToPractice
+import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.InjectedParam
 
@@ -27,6 +28,21 @@ class PracticeCardsViewModel(
     }
 
     fun onRevealBackClicked() {
+        currentCard ?: return
+        showBack = true
+        updateUIModel()
+    }
+
+    fun onResultButtonClicked(result: FlashCardPracticeResult) {
+        if (!showBack) return
+
+        // TODO call use case to update data
+
+        currentCard = pickFirstCardFromQueue()
+        updateUIModel()
+    }
+
+    private fun updateUIModel() {
         val currentCard = currentCard ?: return
         _uiModel.value = mapper.toUIModel(currentCard, showBack)
     }

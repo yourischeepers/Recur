@@ -18,4 +18,9 @@
     <string name="create_deck_back_alt">Close</string>
     <string name="create_deck_name_input_label">Name</string>
     <string name="create_deck_finish_button">Create</string>
+    <string name="card_practicing_tap_to_reveal_back">Tap to reveal backside</string>
+    <string name="card_practicing_result_wrong">Wrong</string>
+    <string name="card_practicing_result_hard">Hard</string>
+    <string name="card_practicing_result_correct">Correct</string>
+    <string name="card_practicing_result_easy">Easy</string>
 </resources>

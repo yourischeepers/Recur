@@ -21,7 +21,7 @@ class DecksUIMapper {
             name = deck.name,
             knowledgePercentage = deck.knowledgePercentage,
             amountOfCards = deck.cards.size,
-            previewText = deck.cards.joinToString(" * ") { it.front } // TODO find different character
+            previewText = deck.cards.joinToString(" • ") { it.front }
         )
     }
 }

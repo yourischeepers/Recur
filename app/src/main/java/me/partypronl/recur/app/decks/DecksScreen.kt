@@ -28,6 +28,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -38,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import me.partypronl.recur.R
 import me.partypronl.recur.app.MainNavGraph
+import me.partypronl.recur.app.decks.create.CreateDeckDialog
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBar
 import me.partypronl.recur.app.generic.composable.navigation.RecurNavigationBarItem
 import me.partypronl.recur.app.generic.composable.states.GenericError
@@ -59,20 +63,30 @@ fun DecksScreen(
     viewModel: DecksViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-
     viewModel.navigation.HandleNavigation(navController)
+
+    var createDeckDialogOpen by remember { mutableStateOf(false) }
 
     DecksContent(
         uiState = uiState,
+        onClickCreateDeck = { createDeckDialogOpen = true },
         onClickPractice = viewModel::onOpenPracticeClicked,
         onClickAccount = viewModel::onOpenAccountClicked,
         modifier = modifier,
     )
+
+    if (createDeckDialogOpen) {
+        CreateDeckDialog(
+            onDismissRequest = { createDeckDialogOpen = false },
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
 }
 
 @Composable
 private fun DecksContent(
     uiState: TypedUIState<DecksUIModel, Throwable>,
+    onClickCreateDeck: () -> Unit,
     onClickPractice: () -> Unit,
     onClickAccount: () -> Unit,
     modifier: Modifier = Modifier,
@@ -92,7 +106,9 @@ private fun DecksContent(
     },
     floatingActionButton = {
         if (uiState is TypedUIState.Normal) {
-            CreateDeckFAB()
+            CreateDeckFAB(
+                onClickCreateDeck = onClickCreateDeck,
+            )
         }
     }
 ) { innerPadding ->
@@ -263,12 +279,11 @@ private fun DecksListTitle(
 
 @Composable
 private fun CreateDeckFAB(
+    onClickCreateDeck: () -> Unit,
     modifier: Modifier = Modifier,
 ) = ExtendedFloatingActionButton(
     modifier = modifier,
-    onClick = {
-
-    },
+    onClick = onClickCreateDeck,
 ) {
     Icon(
         painter = painterResource(R.drawable.outline_note_stack_add_24),

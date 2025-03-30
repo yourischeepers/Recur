@@ -72,6 +72,7 @@ fun DecksScreen(
         onClickCreateDeck = { createDeckDialogOpen = true },
         onClickPractice = viewModel::onOpenPracticeClicked,
         onClickAccount = viewModel::onOpenAccountClicked,
+        onClickPracticeDeck = viewModel::onPracticeDeckClicked,
         modifier = modifier,
     )
 
@@ -89,6 +90,7 @@ private fun DecksContent(
     onClickCreateDeck: () -> Unit,
     onClickPractice: () -> Unit,
     onClickAccount: () -> Unit,
+    onClickPracticeDeck: (DeckUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
@@ -118,6 +120,7 @@ private fun DecksContent(
         normalContent = {
             NormalContent(
                 uiModel = it,
+                onClickPracticeDeck = onClickPracticeDeck,
                 modifier = Modifier.fillMaxSize(),
             )
         },
@@ -133,6 +136,7 @@ private fun DecksContent(
 @Composable
 private fun NormalContent(
     uiModel: DecksUIModel,
+    onClickPracticeDeck: (DeckUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -150,6 +154,7 @@ private fun NormalContent(
     items(uiModel.decks) {
         DeckCard(
             deck = it,
+            onClickPractice = { onClickPracticeDeck(it) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -158,6 +163,7 @@ private fun NormalContent(
 @Composable
 private fun DeckCard(
     deck: DeckUIModel,
+    onClickPractice: () -> Unit,
     modifier: Modifier = Modifier,
 ) = Card(
     border = BorderStroke(
@@ -236,9 +242,7 @@ private fun DeckCard(
             Spacer(modifier = Modifier.width(4.dp))
 
             FilledTonalButton(
-                onClick = {
-                    // TODO
-                },
+                onClick = onClickPractice,
                 contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
             ) {
                 Icon(
@@ -306,6 +310,9 @@ private fun EventFlow<DecksNavigation>.HandleNavigation(navController: NavContro
             }
             is DecksNavigation.OpenAccount -> {
                 // TODO
+            }
+            is DecksNavigation.OpenPracticeDeck -> {
+                navController.navigate(MainNavGraph.PracticeDeck(it.deck))
             }
         }
     }

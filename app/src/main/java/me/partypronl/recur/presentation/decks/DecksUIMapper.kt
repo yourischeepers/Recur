@@ -17,6 +17,7 @@ class DecksUIMapper {
 
     private fun toUIModel(deck: Deck): DeckUIModel {
         return DeckUIModel(
+            deck = deck,
             name = deck.name,
             knowledgePercentage = deck.knowledgePercentage,
             amountOfCards = deck.cards.size,

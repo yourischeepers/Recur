@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import me.partypronl.recur.domain.decks.ObserveDecks
+import me.partypronl.recur.presentation.decks.model.DeckUIModel
 import me.partypronl.recur.presentation.decks.model.DecksUIModel
 import me.partypronl.recur.util.coroutines.launchCatchingOnIO
 import me.partypronl.recur.util.mvvm.MutableEventFlow
@@ -35,6 +36,10 @@ class DecksViewModel(
 
     fun onOpenAccountClicked() {
         _navigation.setEvent(DecksNavigation.OpenAccount)
+    }
+
+    fun onPracticeDeckClicked(deckUIModel: DeckUIModel) {
+        _navigation.setEvent(DecksNavigation.OpenPracticeDeck(deckUIModel.deck))
     }
 
     private fun startObservingDecks() = viewModelScope.launchCatchingOnIO(::onObserveDecksError) {

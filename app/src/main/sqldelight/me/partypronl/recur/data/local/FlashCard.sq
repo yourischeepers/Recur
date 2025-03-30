@@ -7,6 +7,11 @@ INSERT OR REPLACE
 INTO FlashCard
 VALUES ?;
 
+deleteByDeckId:
+DELETE
+FROM FlashCard
+WHERE deckId = ?;
+
 deleteById:
 DELETE
 FROM FlashCard

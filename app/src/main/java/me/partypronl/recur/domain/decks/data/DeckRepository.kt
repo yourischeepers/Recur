@@ -6,4 +6,5 @@ import me.partypronl.recur.domain.decks.model.Deck
 interface DeckRepository {
 
     fun observeDecks(): Flow<List<Deck>>
+    suspend fun createDeck(name: String)
 }

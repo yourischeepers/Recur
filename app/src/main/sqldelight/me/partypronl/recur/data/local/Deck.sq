@@ -1,0 +1,13 @@
+selectAll:
+SELECT *
+FROM Deck;
+
+insert:
+INSERT OR REPLACE
+INTO Deck
+VALUES ?;
+
+deleteById:
+DELETE
+FROM Deck
+WHERE id = ?;

@@ -7,6 +7,17 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("me.partypronl.recur.data.local")
+            schemaOutputDirectory.set(rootProject.rootDir)
+            generateAsync.set(true)
+            verifyMigrations.set(true)
+        }
+    }
+}
+
 android {
     namespace = "me.partypronl.recur"
     compileSdk = 35

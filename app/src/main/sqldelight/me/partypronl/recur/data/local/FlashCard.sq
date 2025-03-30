@@ -1,0 +1,13 @@
+selectAll:
+SELECT *
+FROM FlashCard;
+
+insert:
+INSERT OR REPLACE
+INTO FlashCard
+VALUES ?;
+
+deleteById:
+DELETE
+FROM FlashCard
+WHERE id = ?;

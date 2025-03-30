@@ -1,0 +1,16 @@
+CREATE TABLE Deck (
+    id TEXT NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    createdAt INTEGER NOT NULL
+);
+
+CREATE TABLE FlashCard (
+    id TEXT NOT NULL PRIMARY KEY,
+    deckId TEXT NOT NULL,
+    front TEXT NOT NULL,
+    back TEXT NOT NULL,
+    normalLevel INTEGER NOT NULL,
+    reverseLevel INTEGER NOT NULL,
+    normalLastCompleted INTEGER NOT NULL,
+    reverseLastCompleted INTEGER NOT NULL
+);

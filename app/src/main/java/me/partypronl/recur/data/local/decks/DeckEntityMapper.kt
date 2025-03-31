@@ -2,7 +2,6 @@ package me.partypronl.recur.data.local.decks
 
 import me.partypronl.recur.data.local.database.InstantEntityMapper
 import me.partypronl.recur.domain.decks.model.Deck
-import me.partypronl.recur.domain.decks.model.FlashCard
 import org.koin.core.annotation.Factory
 import java.util.UUID
 import me.partypronl.recur.data.local.Deck as DeckEntity
@@ -26,25 +25,11 @@ class DeckEntityMapper(
         val matchingCards = allCardEntities.filter { it.id == entity.id }
         val mappedCards = matchingCards.map { flashCardEntityMapper.mapToModel(it) }
 
-        // TODO Remove
-        val tempCards = listOf(
-            FlashCard(
-                id = UUID.randomUUID(),
-                front = "Ni hao",
-                back = "English",
-            ),
-            FlashCard(
-                id = UUID.randomUUID(),
-                front = "Wo shi zhongguoren",
-                back = "English",
-            ),
-        )
-
         return Deck(
             id = UUID.fromString(entity.id),
             name = entity.name,
             createdAt = instantEntityMapper.mapToModel(entity.createdAt),
-            cards = tempCards,
+            cards = mappedCards,
         )
     }
 }

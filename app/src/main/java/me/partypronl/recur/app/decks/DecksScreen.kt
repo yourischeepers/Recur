@@ -73,6 +73,7 @@ fun DecksScreen(
         onClickPractice = viewModel::onOpenPracticeClicked,
         onClickAccount = viewModel::onOpenAccountClicked,
         onClickPracticeDeck = viewModel::onPracticeDeckClicked,
+        onClickEditDeck = viewModel::onEditDeckClicked,
         modifier = modifier,
     )
 
@@ -91,6 +92,7 @@ private fun DecksContent(
     onClickPractice: () -> Unit,
     onClickAccount: () -> Unit,
     onClickPracticeDeck: (DeckUIModel) -> Unit,
+    onClickEditDeck: (DeckUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
@@ -121,6 +123,7 @@ private fun DecksContent(
             NormalContent(
                 uiModel = it,
                 onClickPracticeDeck = onClickPracticeDeck,
+                onClickEditDeck = onClickEditDeck,
                 modifier = Modifier.fillMaxSize(),
             )
         },
@@ -137,6 +140,7 @@ private fun DecksContent(
 private fun NormalContent(
     uiModel: DecksUIModel,
     onClickPracticeDeck: (DeckUIModel) -> Unit,
+    onClickEditDeck: (DeckUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -155,6 +159,7 @@ private fun NormalContent(
         DeckCard(
             deck = it,
             onClickPractice = { onClickPracticeDeck(it) },
+            onClickEdit = { onClickEditDeck(it) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -164,6 +169,7 @@ private fun NormalContent(
 private fun DeckCard(
     deck: DeckUIModel,
     onClickPractice: () -> Unit,
+    onClickEdit: () -> Unit,
     modifier: Modifier = Modifier,
 ) = Card(
     border = BorderStroke(
@@ -230,9 +236,7 @@ private fun DeckCard(
             modifier = Modifier.fillMaxWidth(),
         ) {
             TextButton(
-                onClick = {
-                    // TODO
-                }
+                onClick = onClickEdit,
             ) {
                 Text(
                     text = stringResource(R.string.decks_list_item_manage),
@@ -313,6 +317,9 @@ private fun EventFlow<DecksNavigation>.HandleNavigation(navController: NavContro
             }
             is DecksNavigation.OpenPracticeDeck -> {
                 navController.navigate(MainNavGraph.PracticeDeck(it.deck))
+            }
+            is DecksNavigation.OpenEditDeck -> {
+                navController.navigate(MainNavGraph.EditDeck(it.deck))
             }
         }
     }

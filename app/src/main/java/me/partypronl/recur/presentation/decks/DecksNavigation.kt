@@ -7,4 +7,5 @@ sealed interface DecksNavigation {
     data object OpenPractice : DecksNavigation
     data object OpenAccount : DecksNavigation
     data class OpenPracticeDeck(val deck: Deck) : DecksNavigation
+    data class OpenEditDeck(val deck: Deck) : DecksNavigation
 }

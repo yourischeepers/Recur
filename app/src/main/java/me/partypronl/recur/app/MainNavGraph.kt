@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
 import me.partypronl.recur.app.decks.DecksScreen
+import me.partypronl.recur.app.decks.edit.EditDeckScreen
 import me.partypronl.recur.app.decks.practice.PracticeDeckScreen
 import me.partypronl.recur.app.practice.quick.QuickPracticeScreen
 import me.partypronl.recur.domain.decks.model.Deck
@@ -25,6 +26,9 @@ data object MainNavGraph {
 
     @Serializable
     data class PracticeDeck(val deck: Deck)
+
+    @Serializable
+    data class EditDeck(val deck: Deck)
 }
 
 @Stable
@@ -50,6 +54,16 @@ fun NavGraphBuilder.mainRoutes(
     ) {
         PracticeDeckScreen(
             deck = it.toRoute<MainNavGraph.PracticeDeck>().deck,
+            navController = navController,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+
+    composable<MainNavGraph.EditDeck>(
+        typeMap = mapOf(createNavType(Deck::class))
+    ) {
+        EditDeckScreen(
+            deck = it.toRoute<MainNavGraph.EditDeck>().deck,
             navController = navController,
             modifier = Modifier.fillMaxSize(),
         )

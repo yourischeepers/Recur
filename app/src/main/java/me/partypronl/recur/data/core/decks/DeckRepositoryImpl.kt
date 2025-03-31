@@ -26,4 +26,8 @@ class DeckRepositoryImpl(
             )
         )
     }
+
+    override suspend fun updateDeck(deck: Deck) {
+        dataStore.updateDeck(deck)
+    }
 }

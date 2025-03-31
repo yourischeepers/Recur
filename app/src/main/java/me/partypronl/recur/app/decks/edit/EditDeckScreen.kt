@@ -1,0 +1,259 @@
+package me.partypronl.recur.app.decks.edit
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import me.partypronl.recur.R
+import me.partypronl.recur.domain.decks.model.Deck
+import me.partypronl.recur.presentation.decks.edit.EditDeckArgs
+import me.partypronl.recur.presentation.decks.edit.EditDeckNavigation
+import me.partypronl.recur.presentation.decks.edit.EditDeckViewModel
+import me.partypronl.recur.presentation.decks.edit.model.EditDeckCardUIModel
+import me.partypronl.recur.presentation.decks.edit.model.EditDeckUIModel
+import me.partypronl.recur.util.mvvm.EventFlow
+import me.partypronl.recur.util.mvvm.RetrieveAsEffect
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
+
+@Composable
+fun EditDeckScreen(
+    deck: Deck,
+    navController: NavController,
+    modifier: Modifier = Modifier,
+    viewModel: EditDeckViewModel = koinViewModel(
+        parameters = { parametersOf(EditDeckArgs(deck)) }
+    )
+) {
+    val uiModel by viewModel.uiModel.collectAsState()
+    viewModel.navigation.HandleNavigation(navController)
+
+    var createCardDialogOpen by remember { mutableStateOf(false) }
+
+    EditDeckContent(
+        uiModel = uiModel,
+        onClickCreateCard = { createCardDialogOpen = true },
+        onClickBack = viewModel::onBackClicked,
+        modifier = modifier,
+    )
+
+    if (createCardDialogOpen) {
+        CreateCardDialog(
+            deck = deck,
+            onDismissRequest = { createCardDialogOpen = false },
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Composable
+private fun EditDeckContent(
+    uiModel: EditDeckUIModel,
+    onClickCreateCard: () -> Unit,
+    onClickBack: () -> Unit,
+    modifier: Modifier = Modifier,
+) = Scaffold(
+    modifier = modifier,
+    topBar = {
+        EditDeckTopBar(
+            deckName = uiModel.name,
+            onClickBack = onClickBack,
+            onClickEditName = {}, // TODO
+            onClickDelete = {}, // TODO
+        )
+    }
+) { innerPadding ->
+    CardsList(
+        uiModel = uiModel,
+        onClickCreateCard = onClickCreateCard,
+        modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize(),
+    )
+}
+
+@Composable
+private fun CardsList(
+    uiModel: EditDeckUIModel,
+    onClickCreateCard: () -> Unit,
+    modifier: Modifier = Modifier,
+) = LazyColumn(
+    verticalArrangement = Arrangement.spacedBy(4.dp),
+    modifier = modifier
+        .padding(
+            horizontal = 12.dp,
+            vertical = 8.dp,
+        ),
+) {
+    item {
+        CardsListHeader(
+            amountOfCards = uiModel.amountOfCards,
+            onClickAdd = onClickCreateCard,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+
+    items(uiModel.cards) {
+        Card(
+            uiModel = it,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
+@Composable
+private fun Card(
+    uiModel: EditDeckCardUIModel,
+    modifier: Modifier = Modifier,
+) = _root_ide_package_.androidx.compose.material3.Card(
+    border = BorderStroke(
+        width = 1.dp,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+    ),
+    colors = CardDefaults.cardColors(
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest
+    ),
+    modifier = modifier,
+) {
+    Column(
+        modifier = Modifier.padding(
+            horizontal = 12.dp,
+            vertical = 16.dp,
+        )
+    ) {
+        Text(
+            text = uiModel.front,
+            style = MaterialTheme.typography.titleLarge,
+        )
+
+        HorizontalDivider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+        )
+
+        Text(
+            text = uiModel.back,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.End,
+        )
+    }
+}
+
+@Composable
+private fun CardsListHeader(
+    amountOfCards: Int,
+    onClickAdd: () -> Unit,
+    modifier: Modifier,
+) = Row(
+    modifier = modifier,
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.SpaceBetween,
+) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Text(
+            text = "Cards",
+            style = MaterialTheme.typography.headlineMedium,
+        )
+
+        Text(
+            text = stringResource(R.string.decks_list_title_amount_indicator, amountOfCards),
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+    }
+
+    IconButton(
+        onClick = onClickAdd,
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.baseline_add_24),
+            contentDescription = "Add card", // TODO
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun EditDeckTopBar(
+    deckName: String,
+    onClickBack: () -> Unit,
+    onClickEditName: () -> Unit,
+    onClickDelete: () -> Unit,
+    modifier: Modifier = Modifier,
+) = TopAppBar(
+    title = {
+        Text(text = deckName)
+    },
+    navigationIcon = {
+        IconButton(
+            onClick = onClickBack,
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.baseline_arrow_back_24),
+                contentDescription = "Go back", // TODO
+            )
+        }
+    },
+    actions = {
+        Row {
+            IconButton(
+                onClick = onClickEditName,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_edit_24),
+                    contentDescription = "Rename", // TODO
+                )
+            }
+
+            IconButton(
+                onClick = onClickDelete,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_delete_24),
+                    contentDescription = "Delete", // TODO
+                )
+            }
+        }
+    },
+    modifier = modifier,
+)
+
+@Composable
+private fun EventFlow<EditDeckNavigation>.HandleNavigation(navController: NavController) {
+    RetrieveAsEffect {
+        when (it) {
+            is EditDeckNavigation.GoBack -> navController.popBackStack()
+        }
+    }
+}

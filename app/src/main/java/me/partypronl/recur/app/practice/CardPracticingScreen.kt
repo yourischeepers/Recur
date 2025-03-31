@@ -79,7 +79,7 @@ private fun CardPracticingContent(
                 ),
         )
     } else {
-        // TODO Nothing to practice content
+        // TODO Nothing to practice content or some other kind of end screen that can be inserted?
     }
 }
 

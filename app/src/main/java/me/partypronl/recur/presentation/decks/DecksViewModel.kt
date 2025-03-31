@@ -42,6 +42,10 @@ class DecksViewModel(
         _navigation.setEvent(DecksNavigation.OpenPracticeDeck(deckUIModel.deck))
     }
 
+    fun onEditDeckClicked(deckUIModel: DeckUIModel) {
+        _navigation.setEvent(DecksNavigation.OpenEditDeck(deckUIModel.deck))
+    }
+
     private fun startObservingDecks() = viewModelScope.launchCatchingOnIO(::onObserveDecksError) {
         observeDecks().collectLatest {
             _uiState.setNormal(mapper.toUIModel(it))

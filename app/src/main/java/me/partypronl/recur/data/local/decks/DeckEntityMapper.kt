@@ -22,7 +22,7 @@ class DeckEntityMapper(
     }
 
     fun mapToModel(entity: DeckEntity, allCardEntities: List<FlashCardEntity>): Deck {
-        val matchingCards = allCardEntities.filter { it.id == entity.id }
+        val matchingCards = allCardEntities.filter { it.deckId == entity.id }
         val mappedCards = matchingCards.map { flashCardEntityMapper.mapToModel(it) }
 
         return Deck(

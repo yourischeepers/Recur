@@ -6,7 +6,9 @@ import me.partypronl.recur.data.core.decks.DeckDataStore
 import me.partypronl.recur.data.local.DeckQueries
 import me.partypronl.recur.data.local.FlashCardQueries
 import me.partypronl.recur.domain.decks.model.Deck
+import me.partypronl.recur.util.database.MultiTransactionScope
 import me.partypronl.recur.util.database.asFlowOfList
+import me.partypronl.recur.util.database.transactionsOn
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -43,13 +45,19 @@ class LocalDeckDataStore(
     }
 
     private suspend fun insertDeck(deck: Deck) {
-        val deckEntity = deckEntityMapper.mapToEntity(deck)
-        deckQueries.insert(deckEntity)
-        flashCardQueries.deleteByDeckId(deckEntity.id)
+        transactionsOn(
+            deckQueries,
+            flashCardQueries
+        ) {
+            val deckEntity = deckEntityMapper.mapToEntity(deck)
+            deckQueries.insert(deckEntity)
 
-        val flashCardEntities = deck.cards.map { flashCardEntityMapper.mapToEntity(it, deck) }
-        for(flashCardEntity in flashCardEntities) {
-            flashCardQueries.insert(flashCardEntity)
+            flashCardQueries.deleteByDeckId(deckEntity.id)
+
+            val flashCardEntities = deck.cards.map { flashCardEntityMapper.mapToEntity(it, deck) }
+            for (flashCardEntity in flashCardEntities) {
+                flashCardQueries.insert(flashCardEntity)
+            }
         }
     }
 }

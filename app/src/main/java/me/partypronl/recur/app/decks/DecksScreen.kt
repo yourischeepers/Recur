@@ -250,7 +250,7 @@ private fun DeckCard(
                 contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
             ) {
                 Icon(
-                   painter = painterResource(R.drawable.baseline_auto_awesome_24),
+                    painter = painterResource(R.drawable.baseline_auto_awesome_24),
                     contentDescription = null,
                     modifier = Modifier.size(ButtonDefaults.IconSize)
                 )

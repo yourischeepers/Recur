@@ -5,6 +5,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import me.partypronl.recur.domain.decks.model.CardToPractice
 import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
+import me.partypronl.recur.domain.decks.model.getOrdered
+import me.partypronl.recur.presentation.practice.model.PracticeCardsUIState
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.InjectedParam
 
@@ -14,12 +16,15 @@ class PracticeCardsViewModel(
     private val mapper: PracticeCardsUIMapper,
 ) : ViewModel() {
 
-    private val cardQueue = args.cardsToPractice.toMutableList()
+    private val cardQueue = args.cardsToPractice.getOrdered().toMutableList()
     private var currentCard = pickFirstCardFromQueue()
     private var showBack = false
 
-    private val _uiModel = MutableStateFlow(currentCard?.let { mapper.toUIModel(it, showBack) })
-    val uiModel = _uiModel.asStateFlow()
+    private val _uiState = MutableStateFlow(
+        currentCard?.let { mapper.toUIModel(it, showBack) }?.let { PracticeCardsUIState.Practicing(it) }
+            ?: PracticeCardsUIState.Finished
+    )
+    val uiState = _uiState.asStateFlow()
 
     private fun pickFirstCardFromQueue(): CardToPractice? {
         val first = cardQueue.firstOrNull() ?: return null
@@ -39,11 +44,17 @@ class PracticeCardsViewModel(
         // TODO call use case to update data
 
         currentCard = pickFirstCardFromQueue()
-        updateUIModel()
+
+        if (currentCard != null) {
+            showBack = false
+            updateUIModel()
+        } else {
+            _uiState.value = PracticeCardsUIState.Finished
+        }
     }
 
     private fun updateUIModel() {
         val currentCard = currentCard ?: return
-        _uiModel.value = mapper.toUIModel(currentCard, showBack)
+        _uiState.value = PracticeCardsUIState.Practicing(mapper.toUIModel(currentCard, showBack))
     }
 }

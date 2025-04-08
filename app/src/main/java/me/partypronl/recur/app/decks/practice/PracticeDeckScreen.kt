@@ -2,12 +2,19 @@ package me.partypronl.recur.app.decks.practice
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -24,6 +31,7 @@ import me.partypronl.recur.domain.decks.model.Deck
 import me.partypronl.recur.presentation.decks.practice.PracticeDeckArgs
 import me.partypronl.recur.presentation.decks.practice.PracticeDeckNavigation
 import me.partypronl.recur.presentation.decks.practice.PracticeDeckViewModel
+import me.partypronl.recur.presentation.decks.practice.model.PracticeDeckUIModel
 import me.partypronl.recur.util.mvvm.EventFlow
 import me.partypronl.recur.util.mvvm.RetrieveAsEffect
 import org.koin.androidx.compose.koinViewModel
@@ -38,12 +46,15 @@ fun PracticeDeckScreen(
         parameters = { parametersOf(PracticeDeckArgs(deck)) }
     )
 ) {
+    val uiModel by viewModel.uiModel.collectAsState()
     val cardsToPractice by viewModel.cardsToPractice.collectAsState()
     viewModel.navigation.HandleNavigation(navController)
 
     PracticeDeckContent(
+        uiModel = uiModel,
         cardsToPractice = cardsToPractice,
         onClickBack = viewModel::onBackClicked,
+        onClickRepeatWholeDeck = viewModel::onRepeatWholeDeckClicked,
         modifier = modifier.systemBarsPadding(),
     )
 }
@@ -51,8 +62,10 @@ fun PracticeDeckScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PracticeDeckContent(
+    uiModel: PracticeDeckUIModel,
     cardsToPractice: List<CardToPractice>,
     onClickBack: () -> Unit,
+    onClickRepeatWholeDeck: () -> Unit,
     modifier: Modifier,
 ) = Column(
     modifier = modifier
@@ -62,7 +75,7 @@ private fun PracticeDeckContent(
 ) {
     TopAppBar(
         title = {
-            Text(text = "Practicing DECK NAME") // TODO
+            Text(text = "Practicing ${uiModel.deckName}") // TODO
         },
         navigationIcon = {
             IconButton(
@@ -78,6 +91,34 @@ private fun PracticeDeckContent(
 
     CardPracticingScreen(
         cardsToPractice = cardsToPractice,
+        finishedButtons = {
+            OutlinedButton(
+                onClick = onClickBack,
+            ) {
+                Text(
+                    text = "Back to decks", // TODO
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            FilledTonalButton(
+                contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                onClick = onClickRepeatWholeDeck,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_refresh_24),
+                    contentDescription = null,
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
+                )
+
+                Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
+
+                Text(
+                    text = "Repeat whole deck", // TODO
+                )
+            }
+        },
         modifier = Modifier
             .padding(
                 horizontal = 16.dp,

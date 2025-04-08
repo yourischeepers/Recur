@@ -13,6 +13,28 @@ data class Deck(
     val createdAt: Instant,
 ) {
 
+    fun getAllCardsAsPracticable(): List<CardToPractice> {
+        val cardsToPractice = mutableListOf<CardToPractice>()
+
+        for (card in cards) {
+            cardsToPractice.add(
+                CardToPractice(
+                    card = card,
+                    reversed = false,
+                )
+            )
+
+            cardsToPractice.add(
+                CardToPractice(
+                    card = card,
+                    reversed = true,
+                )
+            )
+        }
+
+        return cardsToPractice
+    }
+
     fun getCardsToPractice(): List<CardToPractice> {
         val cardsToPractice = mutableListOf<CardToPractice>()
 

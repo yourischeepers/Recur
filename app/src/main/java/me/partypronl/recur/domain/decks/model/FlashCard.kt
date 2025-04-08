@@ -24,6 +24,10 @@ data class FlashCard(
             normalResult.rememberingLevel.knowledgePercentage +
             reverseResult.rememberingLevel.knowledgePercentage
         ) / 2.0
+
+    fun getResult(isReversed: Boolean): FlashCardResult {
+        return if (isReversed) reverseResult else normalResult
+    }
 }
 
 @Serializable

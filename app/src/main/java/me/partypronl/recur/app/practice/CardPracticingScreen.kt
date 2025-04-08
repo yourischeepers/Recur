@@ -6,20 +6,24 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -32,6 +36,7 @@ import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
 import me.partypronl.recur.presentation.practice.PracticeCardsArgs
 import me.partypronl.recur.presentation.practice.PracticeCardsViewModel
 import me.partypronl.recur.presentation.practice.model.PracticeCardsUIModel
+import me.partypronl.recur.presentation.practice.model.PracticeCardsUIState
 import me.partypronl.recur.util.compose.conditionalModifier
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -39,56 +44,160 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CardPracticingScreen(
     cardsToPractice: List<CardToPractice>,
+    finishedButtons: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PracticeCardsViewModel = koinViewModel(
         parameters = { parametersOf(PracticeCardsArgs(cardsToPractice)) }
     )
 ) {
-    val uiModel by viewModel.uiModel.collectAsState()
+    println("Init with $cardsToPractice")
+    val uiState by viewModel.uiState.collectAsState()
 
     CardPracticingContent(
-        uiModel = uiModel,
+        uiState = uiState,
         onClickRevealBack = viewModel::onRevealBackClicked,
         onClickResultButton = viewModel::onResultButtonClicked,
+        finishedButtons = finishedButtons,
         modifier = modifier,
     )
 }
 
 @Composable
 private fun CardPracticingContent(
-    uiModel: PracticeCardsUIModel?,
+    uiState: PracticeCardsUIState,
     onClickRevealBack: () -> Unit,
     onClickResultButton: (FlashCardPracticeResult) -> Unit,
+    finishedButtons: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
-) = Column(modifier = modifier) {
-
-    if (uiModel != null) {
-        CardContent(
-            frontText = uiModel.frontText,
-            backText = uiModel.backText,
-            onClickRevealBack = onClickRevealBack,
-            modifier = Modifier.weight(1F),
-        )
-
-        CardPracticeResultButtons(
-            onClickResultButton = onClickResultButton,
-            modifier = Modifier
-                .padding(
-                    top = 4.dp,
-                    bottom = 32.dp,
-                ),
-        )
-    } else {
-        // TODO Nothing to practice content or some other kind of end screen that can be inserted?
+) {
+    when (uiState) {
+        is PracticeCardsUIState.Practicing -> {
+            PracticingContent(
+                uiModel = uiState.uiModel,
+                onClickRevealBack = onClickRevealBack,
+                onClickResultButton = onClickResultButton,
+                modifier = modifier,
+            )
+        }
+        is PracticeCardsUIState.Finished -> {
+            FinishedContent(
+                finishedButtons = finishedButtons,
+                modifier = modifier,
+            )
+        }
     }
 }
 
 @Composable
+private fun FinishedContent(
+    finishedButtons: @Composable ColumnScope.() -> Unit,
+    modifier: Modifier = Modifier,
+) = Column(modifier = modifier) {
+    FinishedMessage(
+        finishedButtons = finishedButtons,
+        modifier = Modifier
+            .weight(1F)
+            .fillMaxWidth(),
+    )
+
+    CardPracticeResultButtons(
+        enabled = false,
+        onClickResultButton = {},
+        modifier = Modifier
+            .padding(
+                top = 4.dp,
+                bottom = 32.dp,
+            ),
+    )
+}
+
+@Composable
+private fun FinishedMessage(
+    finishedButtons: @Composable ColumnScope.() -> Unit,
+    modifier: Modifier,
+) = Column(
+    verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally,
+    modifier = modifier
+        .clip(
+            shape = MaterialTheme.shapes.large,
+        )
+        .border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            shape = MaterialTheme.shapes.large,
+        )
+        .background(
+            color = MaterialTheme.colorScheme.surfaceContainerLowest,
+            shape = MaterialTheme.shapes.large,
+        )
+        .padding(
+            horizontal = 24.dp,
+            vertical = 16.dp,
+        ),
+) {
+    Spacer(modifier = Modifier.weight(1F))
+
+    Icon(
+        painter = painterResource(R.drawable.baseline_celebration_24),
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7F),
+        modifier = Modifier
+            .padding(bottom = 8.dp)
+            .size(64.dp),
+    )
+
+    Text(
+        text = "Practice complete!", // TODO
+        style = MaterialTheme.typography.bodyLarge,
+    )
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .weight(1F)
+            .fillMaxWidth(),
+    ) {
+        finishedButtons()
+    }
+}
+
+@Composable
+private fun PracticingContent(
+    uiModel: PracticeCardsUIModel,
+    onClickRevealBack: () -> Unit,
+    onClickResultButton: (FlashCardPracticeResult) -> Unit,
+    modifier: Modifier = Modifier,
+) = Column(modifier = modifier) {
+    CardContent(
+        frontText = uiModel.frontText,
+        backText = uiModel.backText,
+        onClickRevealBack = onClickRevealBack,
+        modifier = Modifier.weight(1F),
+    )
+
+    CardPracticeResultButtons(
+        enabled = uiModel.backText != null,
+        onClickResultButton = onClickResultButton,
+        modifier = Modifier
+            .padding(
+                top = 4.dp,
+                bottom = 32.dp,
+            ),
+    )
+}
+
+@Composable
 private fun CardPracticeResultButtons(
+    enabled: Boolean,
     onClickResultButton: (FlashCardPracticeResult) -> Unit,
     modifier: Modifier = Modifier,
 ) = Row(
-    modifier = modifier,
+    modifier = modifier
+        .then(
+            if (!enabled) Modifier.alpha(0.3F) else Modifier
+        ),
     horizontalArrangement = Arrangement.spacedBy(4.dp)
 ) {
     CardPracticeResultButton(

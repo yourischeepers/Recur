@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            AppTheme {
+            AppTheme(darkTheme = false) {
                 KoinAndroidContext {
                     MainScreen(
                         modifier = Modifier.fillMaxSize(),

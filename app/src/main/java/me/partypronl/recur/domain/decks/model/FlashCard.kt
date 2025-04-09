@@ -21,8 +21,8 @@ data class FlashCard(
 ) {
 
     val knowledgePercentage = (
-            normalResult.rememberingLevel.knowledgePercentage +
-            reverseResult.rememberingLevel.knowledgePercentage
+            normalResult.knowledgePercentage +
+            reverseResult.knowledgePercentage
         ) / 2.0
 
     fun getResult(isReversed: Boolean): FlashCardResult {
@@ -36,8 +36,23 @@ data class FlashCardResult(
     val rememberingLevel: RememberingLevel,
 ) {
 
+    fun getPracticed(practiceResult: FlashCardPracticeResult): FlashCardResult {
+        return FlashCardResult(
+            lastCompleted = Clock.System.now(),
+            rememberingLevel = RememberingLevel
+                .getBounded(rememberingLevel.ordinal + practiceResult.levelsDelta),
+        )
+    }
+
     val shouldPractice: Boolean
         get() = Clock.System.now() - rememberingLevel.repeatTime > lastCompleted
+
+    val knowledgePercentage: Double
+        get() = if (shouldPractice) {
+            rememberingLevel.knowledgePercentage - 1.0 / RememberingLevel.entries.size
+        } else {
+            rememberingLevel.knowledgePercentage
+        }
 
     companion object {
 
@@ -68,5 +83,13 @@ enum class RememberingLevel(
     TEN(14.days);
 
     val knowledgePercentage: Double
-        get() = this.ordinal / (RememberingLevel.entries.size - 1).toDouble()
+        get() = this.ordinal / (entries.size - 1).toDouble()
+
+    companion object {
+
+        fun getBounded(ordinal: Int): RememberingLevel {
+            val bounded = ordinal.coerceIn(0, RememberingLevel.entries.size - 1)
+            return entries[bounded]
+        }
+    }
 }

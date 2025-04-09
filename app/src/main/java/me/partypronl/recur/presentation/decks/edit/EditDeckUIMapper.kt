@@ -23,6 +23,7 @@ class EditDeckUIMapper {
             card = card,
             front = card.front,
             back = card.back,
+            knowledgePercentage = card.knowledgePercentage,
         )
     }
 }

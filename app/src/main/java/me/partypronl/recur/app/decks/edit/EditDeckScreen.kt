@@ -4,17 +4,25 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -26,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -132,7 +141,7 @@ private fun CardsList(
 private fun Card(
     uiModel: EditDeckCardUIModel,
     modifier: Modifier = Modifier,
-) = _root_ide_package_.androidx.compose.material3.Card(
+) = Card(
     border = BorderStroke(
         width = 1.dp,
         color = MaterialTheme.colorScheme.surfaceContainerHigh,
@@ -144,10 +153,26 @@ private fun Card(
 ) {
     Column(
         modifier = Modifier.padding(
-            horizontal = 12.dp,
-            vertical = 16.dp,
+            start = 12.dp,
+            end = 12.dp,
+            top = 8.dp,
+            bottom = 16.dp,
         )
     ) {
+        LinearProgressIndicator(
+            progress = { uiModel.knowledgePercentage.toFloat() },
+            trackColor = MaterialTheme.colorScheme.tertiaryContainer,
+            color = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 4.dp,
+                    bottom = 8.dp,
+                )
+                .height(8.dp)
+                .clip(RoundedCornerShape(4.dp))
+        )
+
         Text(
             text = uiModel.front,
             style = MaterialTheme.typography.titleLarge,
@@ -165,6 +190,33 @@ private fun Card(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.End,
         )
+
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+        ) {
+            OutlinedIconButton(
+                onClick = {}, // TODO delete
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_delete_24),
+                    contentDescription = "Delete card", // TODO
+                )
+            }
+
+            Spacer(modifier = Modifier.width(4.dp))
+
+            FilledTonalIconButton(
+                onClick = {}, // TODO
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_edit_24),
+                    contentDescription = "Edit card", // TODO
+                )
+            }
+        }
     }
 }
 
@@ -182,7 +234,7 @@ private fun CardsListHeader(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = "Cards",
+            text = "Cards", // TODO
             style = MaterialTheme.typography.headlineMedium,
         )
 

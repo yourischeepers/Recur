@@ -75,7 +75,13 @@ private fun PracticeDeckContent(
 ) {
     TopAppBar(
         title = {
-            Text(text = "Practicing ${uiModel.deckName}") // TODO
+            Text(
+                text = if (uiModel.isRepeating) {
+                    "Repeating ${uiModel.deckName}" // TODO This is not properly triggered
+                } else {
+                    "Practicing ${uiModel.deckName}"
+                }
+            ) // TODO
         },
         navigationIcon = {
             IconButton(
@@ -91,6 +97,7 @@ private fun PracticeDeckContent(
 
     CardPracticingScreen(
         cardsToPractice = cardsToPractice,
+        trackResult = uiModel.isRepeating,
         finishedButtons = {
             OutlinedButton(
                 onClick = onClickBack,

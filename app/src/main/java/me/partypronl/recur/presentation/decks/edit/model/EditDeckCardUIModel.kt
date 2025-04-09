@@ -6,4 +6,5 @@ data class EditDeckCardUIModel(
     val card: FlashCard,
     val front: String,
     val back: String,
+    val knowledgePercentage: Double,
 )

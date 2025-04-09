@@ -44,10 +44,11 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun CardPracticingScreen(
     cardsToPractice: List<CardToPractice>,
+    trackResult: Boolean,
     finishedButtons: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PracticeCardsViewModel = koinViewModel(
-        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice)) }
+        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice, trackResult)) }
     )
 ) {
     println("Init with $cardsToPractice")

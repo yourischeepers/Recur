@@ -18,7 +18,10 @@ class PracticeDeckViewModel(
     )
     val cardsToPractice = _cardsToPractice.asStateFlow()
 
-    private val _uiModel = MutableStateFlow(PracticeDeckUIModel(args.deck.name))
+    private val _uiModel = MutableStateFlow(PracticeDeckUIModel(
+        deckName = args.deck.name,
+        isRepeating = args.deck.getCardsToPractice().isEmpty()
+    ))
     val uiModel = _uiModel.asStateFlow()
 
     private val _navigation = MutableEventFlow<PracticeDeckNavigation>()

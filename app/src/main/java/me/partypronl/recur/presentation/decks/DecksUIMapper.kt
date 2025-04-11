@@ -21,7 +21,9 @@ class DecksUIMapper {
             name = deck.name,
             knowledgePercentage = deck.knowledgePercentage,
             amountOfCards = deck.cards.size,
-            previewText = deck.cards.joinToString(" • ") { it.front }
+            previewText = deck.cards.joinToString(" • ") { it.front },
+            repeat = deck.cards.isNotEmpty() && deck.getCardsToPractice().isEmpty(),
+            canPractice = deck.cards.isNotEmpty(),
         )
     }
 }

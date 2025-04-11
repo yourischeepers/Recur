@@ -45,7 +45,7 @@ data class FlashCardResult(
     }
 
     val shouldPractice: Boolean
-        get() = Clock.System.now() - rememberingLevel.repeatTime > lastCompleted
+        get() = lastCompleted +  rememberingLevel.repeatTime < Clock.System.now()
 
     val knowledgePercentage: Double
         get() = if (shouldPractice) {

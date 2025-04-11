@@ -248,17 +248,22 @@ private fun DeckCard(
             FilledTonalButton(
                 onClick = onClickPractice,
                 contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
+                enabled = deck.canPractice,
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.baseline_auto_awesome_24),
+                    painter = painterResource(R.drawable.baseline_auto_awesome_24), // TODO repeat icon
                     contentDescription = null,
-                    modifier = Modifier.size(ButtonDefaults.IconSize)
+                    modifier = Modifier.size(ButtonDefaults.IconSize),
                 )
 
                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
 
                 Text(
-                    text = stringResource(R.string.decks_list_item_practice),
+                    text = if (deck.repeat) {
+                        "Repeat" // TODO
+                    } else {
+                        stringResource(R.string.decks_list_item_practice)
+                    },
                 )
             }
         }

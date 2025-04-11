@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -48,10 +46,10 @@ fun CardPracticingScreen(
     finishedButtons: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PracticeCardsViewModel = koinViewModel(
-        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice, trackResult)) }
+        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice, trackResult)) },
+        key = cardsToPractice.toString(),
     )
 ) {
-    println("Init with $cardsToPractice")
     val uiState by viewModel.uiState.collectAsState()
 
     CardPracticingContent(

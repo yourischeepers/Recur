@@ -10,4 +10,6 @@ data class DeckUIModel(
     val knowledgePercentage: Double,
     val amountOfCards: Int,
     val previewText: String,
+    val repeat: Boolean,
+    val canPractice: Boolean,
 )

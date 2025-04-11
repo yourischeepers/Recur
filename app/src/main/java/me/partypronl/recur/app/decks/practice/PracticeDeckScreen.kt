@@ -81,7 +81,7 @@ private fun PracticeDeckContent(
                 } else {
                     "Practicing ${uiModel.deckName}"
                 }
-            ) // TODO
+            ) // TODO translations
         },
         navigationIcon = {
             IconButton(
@@ -97,7 +97,7 @@ private fun PracticeDeckContent(
 
     CardPracticingScreen(
         cardsToPractice = cardsToPractice,
-        trackResult = uiModel.isRepeating,
+        trackResult = !uiModel.isRepeating,
         finishedButtons = {
             OutlinedButton(
                 onClick = onClickBack,

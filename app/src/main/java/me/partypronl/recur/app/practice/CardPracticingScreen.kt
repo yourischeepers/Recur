@@ -147,7 +147,7 @@ private fun FinishedMessage(
     )
 
     Text(
-        text = "Practice complete!", // TODO
+        text = stringResource(R.string.practice_complete),
         style = MaterialTheme.typography.bodyLarge,
     )
 

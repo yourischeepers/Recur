@@ -68,7 +68,7 @@ private fun CreateCardContent(
     topBar = {
         FullScreenDialogTopBar(
             title = {
-                Text(text = "New card") // TODO
+                Text(text = stringResource(R.string.create_card_title))
             },
             navigationIcon = {
                 IconButton(

@@ -23,4 +23,12 @@
     <string name="card_practicing_result_hard">Hard</string>
     <string name="card_practicing_result_correct">Correct</string>
     <string name="card_practicing_result_easy">Easy</string>
+    <string name="practice_complete">Practice complete!</string>
+    <string name="decks_list_item_repeat">Repeat</string>
+    <string name="practice_deck_title_normal">Practicing %s</string>
+    <string name="practice_deck_title_repeating">Repeating %s</string>
+    <string name="practice_deck_back_button_alt">Close</string>
+    <string name="practice_deck_complete_back_button">Back to decks</string>
+    <string name="practice_deck_complete_repeat_button">Repeat whole deck</string>
+    <string name="create_card_title">New card</string>
 </resources>

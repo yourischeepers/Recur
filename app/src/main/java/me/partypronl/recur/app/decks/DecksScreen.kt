@@ -260,7 +260,7 @@ private fun DeckCard(
 
                 Text(
                     text = if (deck.repeat) {
-                        "Repeat" // TODO
+                        stringResource(R.string.decks_list_item_repeat)
                     } else {
                         stringResource(R.string.decks_list_item_practice)
                     },

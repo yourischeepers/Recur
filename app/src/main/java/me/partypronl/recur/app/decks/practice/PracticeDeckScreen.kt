@@ -22,6 +22,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import me.partypronl.recur.R
@@ -77,11 +78,11 @@ private fun PracticeDeckContent(
         title = {
             Text(
                 text = if (uiModel.isRepeating) {
-                    "Repeating ${uiModel.deckName}" // TODO This is not properly triggered
+                    stringResource(R.string.practice_deck_title_repeating, uiModel.deckName)
                 } else {
-                    "Practicing ${uiModel.deckName}"
+                    stringResource(R.string.practice_deck_title_normal, uiModel.deckName)
                 }
-            ) // TODO translations
+            )
         },
         navigationIcon = {
             IconButton(
@@ -89,7 +90,7 @@ private fun PracticeDeckContent(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_close_24),
-                    contentDescription = "Close" // TODO
+                    contentDescription = stringResource(R.string.practice_deck_back_button_alt),
                 )
             }
         }
@@ -103,7 +104,7 @@ private fun PracticeDeckContent(
                 onClick = onClickBack,
             ) {
                 Text(
-                    text = "Back to decks", // TODO
+                    text = stringResource(R.string.practice_deck_complete_back_button),
                 )
             }
 
@@ -122,7 +123,7 @@ private fun PracticeDeckContent(
                 Spacer(modifier = Modifier.width(ButtonDefaults.IconSpacing))
 
                 Text(
-                    text = "Repeat whole deck", // TODO
+                    text = stringResource(R.string.practice_deck_complete_repeat_button)
                 )
             }
         },

@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import me.partypronl.recur.R
-import me.partypronl.recur.domain.decks.model.CardToPractice
+import me.partypronl.recur.domain.decks.model.CardsToPractice
 import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
 import me.partypronl.recur.presentation.practice.PracticeCardsArgs
 import me.partypronl.recur.presentation.practice.PracticeCardsViewModel
@@ -41,13 +41,13 @@ import org.koin.core.parameter.parametersOf
 
 @Composable
 fun CardPracticingScreen(
-    cardsToPractice: List<CardToPractice>,
+    cardsToPractice: CardsToPractice,
     trackResult: Boolean,
     finishedButtons: @Composable ColumnScope.() -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PracticeCardsViewModel = koinViewModel(
-        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice, trackResult)) },
-        key = cardsToPractice.toString(),
+        parameters = { parametersOf(PracticeCardsArgs(cardsToPractice.value, trackResult)) },
+        key = cardsToPractice.createdAt.toString(),
     )
 ) {
     val uiState by viewModel.uiState.collectAsState()

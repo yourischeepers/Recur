@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import me.partypronl.recur.domain.decks.PracticeCard
 import me.partypronl.recur.domain.decks.model.CardToPractice
 import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
-import me.partypronl.recur.domain.decks.model.getOrdered
+import me.partypronl.recur.domain.decks.model.toCardsToPractice
 import me.partypronl.recur.presentation.practice.model.PracticeCardsUIState
 import me.partypronl.recur.util.coroutines.launchCatchingOnIO
 import org.koin.android.annotation.KoinViewModel
@@ -20,7 +20,7 @@ class PracticeCardsViewModel(
     private val practiceCard: PracticeCard,
 ) : ViewModel() {
 
-    private val cardQueue = args.cardsToPractice.getOrdered().toMutableList()
+    private val cardQueue = args.cardsToPractice.toCardsToPractice().getOrdered().toMutableList()
     private var currentCard = pickFirstCardFromQueue()
     private var showBack = false
 

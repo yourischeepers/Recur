@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import me.partypronl.recur.R
 import me.partypronl.recur.app.practice.CardPracticingScreen
 import me.partypronl.recur.domain.decks.model.CardToPractice
+import me.partypronl.recur.domain.decks.model.CardsToPractice
 import me.partypronl.recur.domain.decks.model.Deck
 import me.partypronl.recur.presentation.decks.practice.PracticeDeckArgs
 import me.partypronl.recur.presentation.decks.practice.PracticeDeckNavigation
@@ -64,7 +65,7 @@ fun PracticeDeckScreen(
 @Composable
 private fun PracticeDeckContent(
     uiModel: PracticeDeckUIModel,
-    cardsToPractice: List<CardToPractice>,
+    cardsToPractice: CardsToPractice,
     onClickBack: () -> Unit,
     onClickRepeatWholeDeck: () -> Unit,
     modifier: Modifier,

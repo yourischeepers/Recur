@@ -3,6 +3,8 @@ package me.partypronl.recur.presentation.decks.practice
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import me.partypronl.recur.domain.decks.model.toCardsToPractice
 import me.partypronl.recur.presentation.decks.practice.model.PracticeDeckUIModel
 import me.partypronl.recur.util.mvvm.MutableEventFlow
 import org.koin.android.annotation.KoinViewModel
@@ -14,7 +16,9 @@ class PracticeDeckViewModel(
 ) : ViewModel() {
 
     private val _cardsToPractice = MutableStateFlow(
-        args.deck.getCardsToPractice().ifEmpty { args.deck.getAllCardsAsPracticable() }
+        args.deck.getCardsToPractice()
+            .ifEmpty { args.deck.getAllCardsAsPracticable() }
+            .toCardsToPractice()
     )
     val cardsToPractice = _cardsToPractice.asStateFlow()
 
@@ -32,6 +36,7 @@ class PracticeDeckViewModel(
     }
 
     fun onRepeatWholeDeckClicked() {
-        _cardsToPractice.value = args.deck.getAllCardsAsPracticable() // TODO make this retrigger the view model
+        _cardsToPractice.value = args.deck.getAllCardsAsPracticable().toCardsToPractice() // TODO make this retrigger the view model
+        _uiModel.update { it.copy(isRepeating = true) }
     }
 }

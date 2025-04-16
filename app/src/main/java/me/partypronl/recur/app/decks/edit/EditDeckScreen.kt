@@ -193,10 +193,19 @@ private fun Card(
 
         Row(
             horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp),
         ) {
+            Text(
+                text = "Practice in ${uiModel.practiceIn}", // TODO
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+
+            Spacer(modifier = Modifier.weight(1F))
+
             OutlinedIconButton(
                 onClick = {}, // TODO delete
             ) {

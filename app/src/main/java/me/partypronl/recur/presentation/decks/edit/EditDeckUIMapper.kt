@@ -5,6 +5,7 @@ import me.partypronl.recur.domain.decks.model.FlashCard
 import me.partypronl.recur.presentation.decks.edit.model.EditDeckCardUIModel
 import me.partypronl.recur.presentation.decks.edit.model.EditDeckUIModel
 import org.koin.core.annotation.Factory
+import kotlin.time.Duration
 
 @Factory
 class EditDeckUIMapper {
@@ -24,6 +25,19 @@ class EditDeckUIMapper {
             front = card.front,
             back = card.back,
             knowledgePercentage = card.knowledgePercentage,
+            practiceIn = formatDuration(
+                minOf(card.normalResult.timeUntilNextPractice, card.reverseResult.timeUntilNextPractice)
+            )
         )
+    }
+
+    private fun formatDuration(duration: Duration): String {
+        val totalMinutes = duration.inWholeMinutes
+
+        return when {
+            totalMinutes >= 1440 -> "${totalMinutes / 1440}d"
+            totalMinutes >= 60 -> "${totalMinutes / 60}h"
+            else -> "${totalMinutes}m"
+        }
     }
 }

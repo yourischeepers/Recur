@@ -23,7 +23,7 @@
     <string name="card_practicing_result_hard">Hard</string>
     <string name="card_practicing_result_correct">Correct</string>
     <string name="card_practicing_result_easy">Easy</string>
-    <string name="practice_complete">Practice complete!</string>
+    <string name="practice_complete">No more cards to practice left!</string>
     <string name="decks_list_item_repeat">Repeat</string>
     <string name="practice_deck_title_normal">Practicing %s</string>
     <string name="practice_deck_title_repeating">Repeating %s</string>

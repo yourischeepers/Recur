@@ -9,4 +9,6 @@ data class EditDeckUIModel(
     val name: String,
     val amountOfCards: Int,
     val cards: List<EditDeckCardUIModel>,
+    val cardToDelete: EditDeckCardUIModel?,
+    val isDeletingCard: Boolean = false,
 )

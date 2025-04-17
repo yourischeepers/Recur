@@ -7,5 +7,5 @@ data class EditDeckCardUIModel(
     val front: String,
     val back: String,
     val knowledgePercentage: Double,
-    val practiceIn: String,
+    val practiceIn: String?,
 )

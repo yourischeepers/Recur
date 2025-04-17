@@ -70,6 +70,7 @@ fun EditDeckScreen(
         uiModel = uiModel,
         onClickCreateCard = { createCardDialogOpen = true },
         onClickBack = viewModel::onBackClicked,
+        onClickDeleteCard = viewModel::onDeleteCardClicked,
         modifier = modifier,
     )
 
@@ -80,6 +81,14 @@ fun EditDeckScreen(
             modifier = Modifier.fillMaxSize(),
         )
     }
+
+    if (uiModel.cardToDelete != null) {
+        DeleteCardConfirmationDialog(
+            isDeleting = uiModel.isDeletingCard,
+            onClickConfirm = viewModel::onDeleteCardConfirm,
+            onDismissRequest = viewModel::onDismissDeleteCard,
+        )
+    }
 }
 
 @Composable
@@ -87,6 +96,7 @@ private fun EditDeckContent(
     uiModel: EditDeckUIModel,
     onClickCreateCard: () -> Unit,
     onClickBack: () -> Unit,
+    onClickDeleteCard: (EditDeckCardUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = Scaffold(
     modifier = modifier,
@@ -102,6 +112,7 @@ private fun EditDeckContent(
     CardsList(
         uiModel = uiModel,
         onClickCreateCard = onClickCreateCard,
+        onClickDeleteCard = onClickDeleteCard,
         modifier = Modifier
             .padding(innerPadding)
             .fillMaxSize(),
@@ -112,6 +123,7 @@ private fun EditDeckContent(
 private fun CardsList(
     uiModel: EditDeckUIModel,
     onClickCreateCard: () -> Unit,
+    onClickDeleteCard: (EditDeckCardUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = LazyColumn(
     verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -132,6 +144,7 @@ private fun CardsList(
     items(uiModel.cards) {
         Card(
             uiModel = it,
+            onClickDelete = { onClickDeleteCard(it) },
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -140,6 +153,7 @@ private fun CardsList(
 @Composable
 private fun Card(
     uiModel: EditDeckCardUIModel,
+    onClickDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) = Card(
     border = BorderStroke(
@@ -199,15 +213,19 @@ private fun Card(
                 .padding(top = 8.dp),
         ) {
             Text(
-                text = "Practice in ${uiModel.practiceIn}", // TODO
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = if (uiModel.practiceIn != null) {
+                    "Practice in ${uiModel.practiceIn}"
+                } else {
+                    "Ready for practice"
+                }, // TODO
             )
 
             Spacer(modifier = Modifier.weight(1F))
 
             OutlinedIconButton(
-                onClick = {}, // TODO delete
+                onClick = onClickDelete,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_delete_24),

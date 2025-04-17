@@ -15,19 +15,21 @@ class EditDeckUIMapper {
             deck = deck,
             name = deck.name,
             amountOfCards = deck.cards.size,
-            cards = deck.cards.map(::toUIModel)
+            cards = deck.cards.map(::toUIModel),
+            cardToDelete = null,
         )
     }
 
     private fun toUIModel(card: FlashCard): EditDeckCardUIModel {
+        val minNextPractice = minOf(card.normalResult.timeUntilNextPractice, card.reverseResult.timeUntilNextPractice)
+
+
         return EditDeckCardUIModel(
             card = card,
             front = card.front,
             back = card.back,
             knowledgePercentage = card.knowledgePercentage,
-            practiceIn = formatDuration(
-                minOf(card.normalResult.timeUntilNextPractice, card.reverseResult.timeUntilNextPractice)
-            )
+            practiceIn = if (minNextPractice.inWholeSeconds < 0) null else formatDuration(minNextPractice)
         )
     }
 

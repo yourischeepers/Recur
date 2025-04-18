@@ -70,6 +70,7 @@ fun EditDeckScreen(
         uiModel = uiModel,
         onClickCreateCard = { createCardDialogOpen = true },
         onClickBack = viewModel::onBackClicked,
+        onClickDeleteDeck = viewModel::onDeleteDeckClicked,
         onClickDeleteCard = viewModel::onDeleteCardClicked,
         modifier = modifier,
     )
@@ -89,6 +90,15 @@ fun EditDeckScreen(
             onDismissRequest = viewModel::onDismissDeleteCard,
         )
     }
+
+
+    if (uiModel.deleteDeckDialogOpen) {
+        DeleteDeckConfirmationDialog(
+            isDeleting = uiModel.isDeletingDeck,
+            onClickConfirm = viewModel::onDeleteDeckConfirm,
+            onDismissRequest = viewModel::onDismissDeleteDeck,
+        )
+    }
 }
 
 @Composable
@@ -96,6 +106,7 @@ private fun EditDeckContent(
     uiModel: EditDeckUIModel,
     onClickCreateCard: () -> Unit,
     onClickBack: () -> Unit,
+    onClickDeleteDeck: () -> Unit,
     onClickDeleteCard: (EditDeckCardUIModel) -> Unit,
     modifier: Modifier = Modifier,
 ) = Scaffold(
@@ -105,7 +116,7 @@ private fun EditDeckContent(
             deckName = uiModel.name,
             onClickBack = onClickBack,
             onClickEditName = {}, // TODO
-            onClickDelete = {}, // TODO
+            onClickDelete = onClickDeleteDeck,
         )
     }
 ) { innerPadding ->

@@ -11,4 +11,6 @@ data class EditDeckUIModel(
     val cards: List<EditDeckCardUIModel>,
     val cardToDelete: EditDeckCardUIModel?,
     val isDeletingCard: Boolean = false,
+    val deleteDeckDialogOpen: Boolean = false,
+    val isDeletingDeck: Boolean = false,
 )

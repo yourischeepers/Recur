@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import me.partypronl.recur.domain.decks.DeleteCard
+import me.partypronl.recur.domain.decks.DeleteDeck
 import me.partypronl.recur.domain.decks.ObserveDeck
 import me.partypronl.recur.presentation.decks.edit.model.EditDeckCardUIModel
 import me.partypronl.recur.util.coroutines.launchCatchingOnIO
@@ -20,6 +21,7 @@ class EditDeckViewModel(
     private val mapper: EditDeckUIMapper,
     private val observeDeck: ObserveDeck,
     private val deleteCard: DeleteCard,
+    private val deleteDeck: DeleteDeck,
 ) : ViewModel() {
 
     private val _uiModel = MutableStateFlow(mapper.toUIModel(args.deck))
@@ -49,8 +51,23 @@ class EditDeckViewModel(
         viewModelScope.launchCatchingOnIO {
             _uiModel.update { it.copy(isDeletingCard = true) }
             deleteCard(args.deck, cardToDelete)
-            _uiModel.update { it.copy(cardToDelete = null) }
+            _uiModel.update { it.copy(cardToDelete = null, isDeletingCard = false) }
         }
+    }
+
+    fun onDeleteDeckClicked() {
+        _uiModel.update { it.copy(deleteDeckDialogOpen = true) }
+    }
+
+    fun onDismissDeleteDeck() {
+        _uiModel.update { it.copy(deleteDeckDialogOpen = false) }
+    }
+
+    fun onDeleteDeckConfirm() = viewModelScope.launchCatchingOnIO {
+        _uiModel.update { it.copy(isDeletingDeck = true) }
+        deleteDeck(args.deck)
+        _uiModel.update { it.copy(deleteDeckDialogOpen = false, isDeletingDeck = false) }
+        _navigation.setEvent(EditDeckNavigation.GoBack)
     }
 
     private fun startObservingDeck() = viewModelScope.launchCatchingOnIO {

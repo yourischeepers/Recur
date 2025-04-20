@@ -75,6 +75,7 @@ fun EditDeckScreen(
     EditDeckContent(
         uiModel = uiModel,
         onClickCreateCard = { createCardDialogOpen = true },
+        onClickImportCards = viewModel::onImportCardsClicked,
         onClickBack = viewModel::onBackClicked,
         onClickDeleteDeck = viewModel::onDeleteDeckClicked,
         onClickDeleteCard = viewModel::onDeleteCardClicked,
@@ -97,12 +98,19 @@ fun EditDeckScreen(
         )
     }
 
-
     if (uiModel.deleteDeckDialogOpen) {
         DeleteDeckConfirmationDialog(
             isDeleting = uiModel.isDeletingDeck,
             onClickConfirm = viewModel::onDeleteDeckConfirm,
             onDismissRequest = viewModel::onDismissDeleteDeck,
+        )
+    }
+
+    if (uiModel.importCardsDialogOpen) {
+        ImportCardsDialog(
+            deck = deck,
+            onDismissRequest = viewModel::onDismissImportCards,
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
@@ -111,6 +119,7 @@ fun EditDeckScreen(
 private fun EditDeckContent(
     uiModel: EditDeckUIModel,
     onClickCreateCard: () -> Unit,
+    onClickImportCards: () -> Unit,
     onClickBack: () -> Unit,
     onClickDeleteDeck: () -> Unit,
     onClickDeleteCard: (EditDeckCardUIModel) -> Unit,
@@ -128,6 +137,7 @@ private fun EditDeckContent(
 ) { innerPadding ->
     CardsList(
         uiModel = uiModel,
+        onClickImportCards = onClickImportCards,
         onClickCreateCard = onClickCreateCard,
         onClickDeleteCard = onClickDeleteCard,
         modifier = Modifier
@@ -139,6 +149,7 @@ private fun EditDeckContent(
 @Composable
 private fun CardsList(
     uiModel: EditDeckUIModel,
+    onClickImportCards: () -> Unit,
     onClickCreateCard: () -> Unit,
     onClickDeleteCard: (EditDeckCardUIModel) -> Unit,
     modifier: Modifier = Modifier,
@@ -169,6 +180,7 @@ private fun CardsList(
     item {
         AddCards(
             onClickCreateCard = onClickCreateCard,
+            onClickImportCards = onClickImportCards,
             modifier = Modifier.fillMaxWidth(),
         )
     }
@@ -177,6 +189,7 @@ private fun CardsList(
 @Composable
 private fun AddCards(
     onClickCreateCard: () -> Unit,
+    onClickImportCards: () -> Unit,
     modifier: Modifier = Modifier
 ) = Row(
     modifier = modifier
@@ -187,7 +200,7 @@ private fun AddCards(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .border(
-                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                 width = 1.dp,
                 shape = MaterialTheme.shapes.large.copy(
                     topEnd = CornerSize(0.dp),
@@ -223,16 +236,14 @@ private fun AddCards(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .border(
-                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                color = MaterialTheme.colorScheme.surfaceContainerHigh,
                 width = 1.dp,
                 shape = MaterialTheme.shapes.large.copy(
                     topStart = CornerSize(0.dp),
                     bottomStart = CornerSize(0.dp),
                 ),
             )
-            .clickable {
-
-            }
+            .clickable { onClickImportCards() }
             .weight(1F)
             .padding(
                 horizontal = 8.dp,

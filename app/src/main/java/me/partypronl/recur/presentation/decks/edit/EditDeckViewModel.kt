@@ -70,6 +70,14 @@ class EditDeckViewModel(
         _navigation.setEvent(EditDeckNavigation.GoBack)
     }
 
+    fun onImportCardsClicked() {
+        _uiModel.update { it.copy(importCardsDialogOpen = true) }
+    }
+
+    fun onDismissImportCards() {
+        _uiModel.update { it.copy(importCardsDialogOpen = false) }
+    }
+
     private fun startObservingDeck() = viewModelScope.launchCatchingOnIO {
         observeDeck(args.deck.id)
             .collectLatest {

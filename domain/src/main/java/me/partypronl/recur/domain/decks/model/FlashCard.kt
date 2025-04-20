@@ -1,10 +1,9 @@
 package me.partypronl.recur.domain.decks.model
 
-import android.annotation.SuppressLint
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import me.partypronl.recur.util.serialization.UUIDSerializer
+import me.partypronl.recur.domain.serialization.UUIDSerializer
 import java.util.UUID
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -59,7 +58,6 @@ data class FlashCardResult(
 
     companion object {
 
-        @SuppressLint("NewApi")
         fun default(): FlashCardResult {
             return FlashCardResult(
                 lastCompleted = Clock.System.now(),

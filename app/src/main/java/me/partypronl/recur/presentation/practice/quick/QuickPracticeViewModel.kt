@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import me.partypronl.recur.domain.decks.ObserveDecks
-import me.partypronl.recur.domain.decks.model.CardsToPractice
 import me.partypronl.recur.domain.decks.model.Deck
 import me.partypronl.recur.domain.decks.model.toCardsToPractice
 import me.partypronl.recur.presentation.practice.quick.model.QuickPracticeUIModel

@@ -2,7 +2,7 @@ package me.partypronl.recur.domain.decks.model
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import me.partypronl.recur.util.serialization.UUIDSerializer
+import me.partypronl.recur.domain.serialization.UUIDSerializer
 import java.util.UUID
 
 @Serializable

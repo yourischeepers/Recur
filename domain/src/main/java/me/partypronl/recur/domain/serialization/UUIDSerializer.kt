@@ -1,4 +1,4 @@
-package me.partypronl.recur.util.serialization
+package me.partypronl.recur.domain.serialization
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

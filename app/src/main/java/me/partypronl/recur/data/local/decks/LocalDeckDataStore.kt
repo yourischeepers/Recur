@@ -6,7 +6,6 @@ import me.partypronl.recur.data.core.decks.DeckDataStore
 import me.partypronl.recur.data.local.DeckQueries
 import me.partypronl.recur.data.local.FlashCardQueries
 import me.partypronl.recur.domain.decks.model.Deck
-import me.partypronl.recur.util.database.MultiTransactionScope
 import me.partypronl.recur.util.database.asFlowOfList
 import me.partypronl.recur.util.database.transactionsOn
 import org.koin.core.annotation.Factory

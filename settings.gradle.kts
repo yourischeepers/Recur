@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Recur"
 include(":app")
+include(":domain")

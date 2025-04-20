@@ -2,7 +2,6 @@ package me.partypronl.recur.domain.decks
 
 import kotlinx.coroutines.flow.first
 import me.partypronl.recur.domain.decks.data.DeckRepository
-import me.partypronl.recur.domain.decks.model.Deck
 import me.partypronl.recur.domain.decks.model.FlashCard
 import org.koin.core.annotation.Factory
 import java.util.UUID

@@ -3,12 +3,17 @@ package me.partypronl.recur
 import app.cash.sqldelight.db.SqlDriver
 import me.partypronl.recur.data.local.AppDatabase
 import me.partypronl.recur.data.local.database.SqlDriverFactory
+import me.partypronl.recur.domain.DomainModule
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Factory
 import org.koin.core.annotation.Module
 import org.koin.core.annotation.Single
 
-@Module
+@Module(
+    includes = [
+        DomainModule::class,
+    ]
+)
 @ComponentScan("me.partypronl.recur")
 class KoinApplicationModule {
 

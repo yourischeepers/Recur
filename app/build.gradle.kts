@@ -79,6 +79,8 @@ android {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlin.datetime)

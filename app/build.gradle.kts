@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -32,10 +34,35 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("config") {
+            storeFile = file(gradleLocalProperties(rootDir, providers).getProperty("RELEASE_STORE_FILE"))
+            storePassword = gradleLocalProperties(rootDir, providers).getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias = gradleLocalProperties(rootDir, providers).getProperty("RELEASE_KEY_ALIAS")
+            keyPassword = gradleLocalProperties(rootDir, providers).getProperty("RELEASE_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
+            isDefault = true
+            isDebuggable = true
             isMinifyEnabled = false
+        }
+
+        create("acceptance") {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            signingConfig = signingConfigs.getByName("config")
+        }
+
+        release {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("config")
         }
     }
     compileOptions {

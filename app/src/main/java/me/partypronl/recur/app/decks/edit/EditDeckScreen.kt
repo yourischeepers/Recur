@@ -1,7 +1,11 @@
 package me.partypronl.recur.app.decks.edit
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -158,6 +164,99 @@ private fun CardsList(
             onClickDelete = { onClickDeleteCard(it) },
             modifier = Modifier.fillMaxWidth(),
         )
+    }
+
+    if (uiModel.cards.isEmpty()) {
+        item {
+            AddCards(
+                onClickCreateCard = onClickCreateCard,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddCards(
+    onClickCreateCard: () -> Unit,
+    modifier: Modifier = Modifier
+) = Row(
+    modifier = modifier
+        .clip(shape = MaterialTheme.shapes.large)
+        .background(color = MaterialTheme.colorScheme.surfaceContainerLowest),
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .border(
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                width = 1.dp,
+                shape = MaterialTheme.shapes.large.copy(
+                    topEnd = CornerSize(0.dp),
+                    bottomEnd = CornerSize(0.dp),
+                ),
+            )
+            .clickable { onClickCreateCard() }
+            .weight(1F)
+            .padding(
+                horizontal = 8.dp,
+                vertical = 12.dp,
+            )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.baseline_add_24),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Text(
+                text = "Add card", // TODO
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .border(
+                color = MaterialTheme.colorScheme.surfaceContainerHighest,
+                width = 1.dp,
+                shape = MaterialTheme.shapes.large.copy(
+                    topStart = CornerSize(0.dp),
+                    bottomStart = CornerSize(0.dp),
+                ),
+            )
+            .clickable {
+
+            }
+            .weight(1F)
+            .padding(
+                horizontal = 8.dp,
+                vertical = 12.dp,
+            )
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.baseline_download_24),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface,
+            )
+
+            Text(
+                text = "Import cards", // TODO
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
     }
 }
 

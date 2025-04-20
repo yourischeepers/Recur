@@ -80,6 +80,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":data-core"))
 
     // Kotlin
     implementation(libs.kotlinx.serialization.json)

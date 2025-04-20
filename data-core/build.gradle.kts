@@ -16,6 +16,8 @@ kotlin {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.core)

@@ -1,6 +1,7 @@
 package me.partypronl.recur
 
 import app.cash.sqldelight.db.SqlDriver
+import me.partypronl.recur.data.core.DataCoreModule
 import me.partypronl.recur.data.local.AppDatabase
 import me.partypronl.recur.data.local.database.SqlDriverFactory
 import me.partypronl.recur.domain.DomainModule
@@ -12,6 +13,7 @@ import org.koin.core.annotation.Single
 @Module(
     includes = [
         DomainModule::class,
+        DataCoreModule::class,
     ]
 )
 @ComponentScan("me.partypronl.recur")

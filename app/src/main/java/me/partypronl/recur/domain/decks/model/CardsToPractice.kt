@@ -1,12 +1,12 @@
 package me.partypronl.recur.domain.decks.model
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 
 data class CardsToPractice(
     val value: List<CardToPractice>,
+    val createdAt: Instant = Clock.System.now()
 ) {
-
-    val createdAt = Clock.System.now()
 
     fun getOrdered(): List<CardToPractice> {
         val original = value.toMutableList()

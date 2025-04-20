@@ -36,7 +36,7 @@ class PracticeDeckViewModel(
     }
 
     fun onRepeatWholeDeckClicked() {
-        _cardsToPractice.value = args.deck.getAllCardsAsPracticable().toCardsToPractice() // TODO make this retrigger the view model
+        _cardsToPractice.value = args.deck.getAllCardsAsPracticable().toCardsToPractice()
         _uiModel.update { it.copy(isRepeating = true) }
     }
 }

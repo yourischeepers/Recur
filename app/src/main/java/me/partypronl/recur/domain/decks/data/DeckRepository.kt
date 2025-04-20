@@ -2,6 +2,7 @@ package me.partypronl.recur.domain.decks.data
 
 import kotlinx.coroutines.flow.Flow
 import me.partypronl.recur.domain.decks.model.Deck
+import me.partypronl.recur.domain.decks.model.FlashCard
 
 interface DeckRepository {
 
@@ -9,4 +10,5 @@ interface DeckRepository {
     suspend fun createDeck(name: String)
     suspend fun updateDeck(deck: Deck)
     suspend fun deleteDeck(deck: Deck)
+    fun parseCardsJson(json: String): List<FlashCard>
 }

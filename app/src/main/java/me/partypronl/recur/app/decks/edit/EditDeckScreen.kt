@@ -166,13 +166,11 @@ private fun CardsList(
         )
     }
 
-    if (uiModel.cards.isEmpty()) {
-        item {
-            AddCards(
-                onClickCreateCard = onClickCreateCard,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
+    item {
+        AddCards(
+            onClickCreateCard = onClickCreateCard,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 

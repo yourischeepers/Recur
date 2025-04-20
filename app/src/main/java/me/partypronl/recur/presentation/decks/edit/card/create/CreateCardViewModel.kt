@@ -25,6 +25,7 @@ class CreateCardViewModel(
 
     fun onBackClicked() {
         _navigation.setEvent(CreateCardNavigation.GoBack)
+        resetInput()
     }
 
     fun setFrontInput(value: String) {
@@ -48,6 +49,11 @@ class CreateCardViewModel(
 
         _uiModel.value = _uiModel.value.copy(isCreating = false)
         _navigation.setEvent(CreateCardNavigation.GoBack)
+        resetInput()
+    }
+
+    private fun resetInput() {
+        _uiModel.value = CreateCardUIModel()
     }
 
     private fun updateCanCreate() {

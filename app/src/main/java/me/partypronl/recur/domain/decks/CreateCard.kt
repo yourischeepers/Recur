@@ -1,7 +1,7 @@
 package me.partypronl.recur.domain.decks
 
+import kotlinx.coroutines.flow.first
 import me.partypronl.recur.domain.decks.data.DeckRepository
-import me.partypronl.recur.domain.decks.model.Deck
 import me.partypronl.recur.domain.decks.model.FlashCard
 import org.koin.core.annotation.Factory
 import java.util.UUID
@@ -9,14 +9,16 @@ import java.util.UUID
 @Factory
 class CreateCard(
     private val deckRepository: DeckRepository,
+    private val observeDeck: ObserveDeck,
 ) {
 
     suspend operator fun invoke(
-        deck: Deck,
+        deckId: UUID,
         front: String,
         back: String,
     ) {
-        val newCards = deck.cards.toMutableList()
+        val mostRecentDeck = observeDeck(deckId).first()
+        val newCards = mostRecentDeck.cards.toMutableList()
         newCards.add(
             FlashCard(
                 id = UUID.randomUUID(),
@@ -25,7 +27,7 @@ class CreateCard(
             )
         )
 
-        val newDeck = deck.copy(cards = newCards)
+        val newDeck = mostRecentDeck.copy(cards = newCards)
         deckRepository.updateDeck(newDeck)
     }
 }

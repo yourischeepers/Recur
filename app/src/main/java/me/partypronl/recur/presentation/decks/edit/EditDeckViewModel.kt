@@ -50,7 +50,7 @@ class EditDeckViewModel(
 
         viewModelScope.launchCatchingOnIO {
             _uiModel.update { it.copy(isDeletingCard = true) }
-            deleteCard(args.deck, cardToDelete)
+            deleteCard(args.deck.id, cardToDelete)
             _uiModel.update { it.copy(cardToDelete = null, isDeletingCard = false) }
         }
     }

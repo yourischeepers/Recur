@@ -42,7 +42,7 @@ class CreateCardViewModel(
         _uiModel.value = _uiModel.value.copy(isCreating = true)
 
         createCard(
-            deck = args.deck,
+            deckId = args.deck.id,
             front = _uiModel.value.frontInput,
             back = _uiModel.value.backInput,
         )

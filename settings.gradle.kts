@@ -23,3 +23,4 @@ rootProject.name = "Recur"
 include(":app")
 include(":domain")
 include(":data-core")
+include(":data-local")

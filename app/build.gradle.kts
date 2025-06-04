@@ -81,6 +81,7 @@ dependencies {
 
     implementation(project(":domain"))
     implementation(project(":data-core"))
+    implementation(project(":data-local"))
 
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
@@ -113,10 +114,6 @@ dependencies {
     implementation(libs.bundles.koin.core)
     implementation(libs.bundles.koin.android)
     ksp(libs.koin.ksp)
-
-    // SQL Delight
-    implementation(libs.sqldelight.android.driver)
-    implementation(libs.sqldelight.coroutines.extensions)
 }
 
 ksp {

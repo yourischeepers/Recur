@@ -1,4 +1,4 @@
-package me.partypronl.recur.util.database
+package me.partypronl.recur.data.local.util
 
 import app.cash.sqldelight.SuspendingTransacter
 import app.cash.sqldelight.SuspendingTransactionWithoutReturn

@@ -1,4 +1,4 @@
-package me.partypronl.recur.util.database
+package me.partypronl.recur.data.local.util
 
 class MultiCauseException(
     val header: String = DefaultHeader,

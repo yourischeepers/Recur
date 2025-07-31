@@ -9,17 +9,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-sqldelight {
-    databases {
-        create("AppDatabase") {
-            packageName.set("me.partypronl.recur.data.local")
-            schemaOutputDirectory.set(rootProject.rootDir)
-            generateAsync.set(true)
-            verifyMigrations.set(true)
-        }
-    }
-}
-
 android {
     namespace = "me.partypronl.recur"
     compileSdk = 35
@@ -66,11 +55,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true

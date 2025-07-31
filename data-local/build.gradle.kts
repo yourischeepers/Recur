@@ -1,6 +1,6 @@
 plugins {
-    id("java-library")
-    alias(libs.plugins.kotlin.jvm)
+    id("com.android.library")
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.sqldelight)
@@ -13,6 +13,35 @@ java {
 
 kotlin {
     jvmToolchain(libs.versions.jvm.get().toInt())
+}
+
+android {
+    namespace = "me.partypronl.recur"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("me.partypronl.recur.data.local")
+            schemaOutputDirectory.set(rootProject.rootDir)
+            generateAsync.set(true)
+            verifyMigrations.set(true)
+        }
+    }
 }
 
 dependencies {

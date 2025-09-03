@@ -1,6 +1,7 @@
 package me.partypronl.recur.app
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -8,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import me.partypronl.recur.app.account.AccountScreen
 import me.partypronl.recur.app.decks.DecksScreen
 import me.partypronl.recur.app.decks.edit.EditDeckScreen
 import me.partypronl.recur.app.decks.practice.PracticeDeckScreen
@@ -29,6 +31,9 @@ data object MainNavGraph {
 
     @Serializable
     data class EditDeck(val deck: Deck)
+
+    @Serializable
+    data object Account
 }
 
 @Stable
@@ -64,6 +69,13 @@ fun NavGraphBuilder.mainRoutes(
     ) {
         EditDeckScreen(
             deck = it.toRoute<MainNavGraph.EditDeck>().deck,
+            navController = navController,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+
+    composable<MainNavGraph.Account> {
+        AccountScreen(
             navController = navController,
             modifier = Modifier.fillMaxSize(),
         )

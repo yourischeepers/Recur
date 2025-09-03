@@ -1,6 +1,7 @@
 package me.partypronl.recur.domain.decks
 
 import kotlinx.coroutines.flow.first
+import me.partypronl.recur.domain.account.streak.AddPracticedCardToStreak
 import me.partypronl.recur.domain.decks.data.DeckRepository
 import me.partypronl.recur.domain.decks.model.CardToPractice
 import me.partypronl.recur.domain.decks.model.FlashCardPracticeResult
@@ -9,6 +10,7 @@ import org.koin.core.annotation.Factory
 @Factory
 class PracticeCard(
     private val deckRepository: DeckRepository,
+    private val addPracticedCardToStreak: AddPracticedCardToStreak,
 ) {
 
     suspend operator fun invoke(
@@ -36,5 +38,7 @@ class PracticeCard(
         }
         val newDeck = deck.copy(cards = newCards)
         deckRepository.updateDeck(newDeck)
+
+        addPracticedCardToStreak()
     }
 }

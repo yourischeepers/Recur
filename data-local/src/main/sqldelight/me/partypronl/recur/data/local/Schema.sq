@@ -14,3 +14,8 @@ CREATE TABLE FlashCard (
     normalLastCompleted INTEGER NOT NULL,
     reverseLastCompleted INTEGER NOT NULL
 );
+
+CREATE TABLE Streak (
+    length INTEGER NOT NULL DEFAULT 0,
+    cardsPracticedToday
+);

@@ -1,0 +1,9 @@
+select:
+SELECT *
+FROM Account
+LIMIT 1;
+
+insert:
+INSERT OR REPLACE
+INTO Account
+VALUES ?;

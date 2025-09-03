@@ -139,7 +139,7 @@ private fun EventFlow<QuickPracticeNavigation>.HandleNavigation(navController: N
                 navController.navigate(MainNavGraph.Decks)
             }
             is QuickPracticeNavigation.OpenAccount -> {
-                // TODO
+                navController.navigate(MainNavGraph.Account)
             }
         }
     }

@@ -12,7 +12,7 @@ The project focuses on clean architecture, local-first persistence, and a modern
 - Kotlin
 - Jetpack Compose
 - Jetpack Navigation
-- Room (local persistence)
+- SQLDelight (local persistence)
 - Koin (dependency injection)
 
 ## Architecture
@@ -32,7 +32,7 @@ The domain layer owns the scheduling logic, while the data layer handles persist
 - Spaced repetition review flow
 - Automatic due-card feed
 - JSON import support
-- Local-first storage with Room
+- Local-first storage with SQLDelight
 
 ## Screenshots
 

@@ -8,6 +8,8 @@ The project focuses on clean architecture, local-first persistence, and a modern
 
 *Status: Functional but not completely finished.*
 
+![Core screens of the app, such as practice mode, decks list and deck editor](./assets/core_screens.png)
+
 ## Tech Stack
 - Kotlin
 - Jetpack Compose
@@ -33,10 +35,6 @@ The domain layer owns the scheduling logic, while the data layer handles persist
 - Automatic due-card feed
 - JSON import support
 - Local-first storage with SQLDelight
-
-## Screenshots
-
-*Coming soon*
 
 ## Planned features
 
